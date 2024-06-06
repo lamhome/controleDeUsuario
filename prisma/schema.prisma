@@ -30,13 +30,13 @@ model User {
   name            String
   email           String
   password        String
-  image           String
+  image           String @default("171549900.gif")
   created_at      DateTime @default(now())
   update_at       DateTime @default(now())
   activated       Boolean  @default(false)
   change_password Boolean  @default(true)
 
-  type_id         String
+  type_id         String @default("031f1003-42e8-4bf9-b6ba-6362ea48422a")
   type            UserType @relation(fields: [type_id], references: [id])
 
   keys            UserKey[]
