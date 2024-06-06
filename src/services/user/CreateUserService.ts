@@ -10,7 +10,7 @@ class CreateUserService{
 
         const userAlreadyExists = await prismaClient.user.findFirst({
             where: {
-                email:email
+                email: email
             }
         })
 
@@ -22,11 +22,13 @@ class CreateUserService{
         const passwordHash = await hash(password, 8);
 
         // Criando nosso usuário
-        const user = await prismaClient.user.create({
+        const user = prismaClient.user.create({
             data: {
                 name: name,
                 email: email,
                 password: passwordHash,
+                type_id: "031f1003-42e8-4bf9-b6ba-6362ea48422a", // criar sempre como usuário
+                image: "171549900.gif", // criar o usuario sempre com uma foto padrao
             },
             select: {
                 id: true,
