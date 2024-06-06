@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UserType {
+  id    String @id @default(uuid())
+  name  String
+
+  users User[]
+
+  @@map("types")
+}
+
+model UserAction {
+  id   String @id @default(uuid())
+  name String
+
+  logs UserLog[]
+
+  @@map("actions")
+}
+
+model User {
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  password        String
+  image           String
+  created_at      DateTime @default(now())
+  update_at       DateTime @default(now())
+  activated       Boolean  @default(false)
+  change_password Boolean  @default(true)
+
+  type_id         String
+  type            UserType @relation(fields: [type_id], references: [id])
+
+  keys            UserKey[]
+  userLogs        UserLog[] @relation("UserLogUser")
+  userReferences  UserLog[] @relation("UserLogReference")
+
+  @@map("users")
+}
+
+model UserKey {
+  id          String   @id @default(uuid())
+  key         String
+  created_at  DateTime @default(now())
+  expired_at  DateTime @default(now())
+  activated   Boolean
+
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
+
+  @@map("keys")
+}
+
+model UserLog {
+  id              String      @id @default(uuid())
+  created_at      DateTime?   @default(now())
+  request_ip      String
+
+  user_action     String
+  userAction      User        @relation("UserLogUser", fields: [user_action], references: [id])
+
+  action_id       String
+  action          UserAction  @relation(fields: [action_id], references: [id])
+
+  user_reference  String
+  userReference   User        @relation("UserLogReference", fields: [user_reference], references: [id])
+
+  @@map("logs")
+}
