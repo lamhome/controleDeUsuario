@@ -1,7 +1,9 @@
 -- CreateTable
 CREATE TABLE "types" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL
+    "name" TEXT NOT NULL,
+    "user_default" BOOLEAN NOT NULL DEFAULT false,
+    "admin_default" BOOLEAN NOT NULL DEFAULT false
 );
 
 -- CreateTable

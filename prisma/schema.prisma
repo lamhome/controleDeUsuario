@@ -8,8 +8,10 @@ datasource db {
 }
 
 model UserType {
-  id    String @id @default(uuid())
-  name  String
+  id            String @id @default(uuid())
+  name          String
+  user_default  Boolean @default(false)
+  admin_default Boolean @default(false)
 
   users User[]
 
