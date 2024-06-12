@@ -3,4 +3,5 @@ export interface EditUserRequest{
     email: string;
     image: string;
     type_id: string;
+    user_id: string;
 }

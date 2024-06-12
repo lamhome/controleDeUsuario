@@ -1,22 +1,21 @@
 import prismaClient from "../../prisma";
-import { EditProductRequest } from "../../models/interfaces/product/EditProductRequest";
+import { EditUserRequest } from "../../models/interfaces/user/EditUserRequest";
 
-class EditProductService{
-    async execute({name, amount, banner, description, price, product_id}: EditProductRequest){
-        const productEdited = await prismaClient.product.update({
+class EditUserService{
+    async execute({name, email, image, type_id, user_id}: EditUserRequest){
+        const userEdited = await prismaClient.user.update({
             where: {
-                id: product_id
+                id: user_id
             },
             data:{
                 name: name,
-                amount: +amount,
-                banner: banner,
-                description: description,
-                price: price
+                email: email,
+                image: image,
+                type_id: type_id
             }
         });
-        return productEdited;
+        return userEdited;
     }
 }
 
-export { EditProductService }
+export { EditUserService }
