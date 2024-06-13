@@ -37,6 +37,7 @@ model User {
   update_at       DateTime @default(now())
   activated       Boolean  @default(false)
   change_password Boolean  @default(true)
+  auth0_id        String?  @unique
 
   type_id         String
   type            UserType @relation(fields: [type_id], references: [id])
