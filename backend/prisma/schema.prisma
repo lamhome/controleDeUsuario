@@ -53,8 +53,9 @@ model UserKey {
   id          String   @id @default(uuid())
   key         String
   created_at  DateTime @default(now())
-  expired_at  DateTime @default(now())
+  expired_at  DateTime
   activated   Boolean
+  validated   Boolean  @default(false)
 
   user_id     String
   user        User     @relation(fields: [user_id], references: [id])
