@@ -1,6 +1,8 @@
 import prismaClient from "../../prisma";
 import { hash } from "bcryptjs";
 import { UserRequest } from "../../models/interfaces/user/UserRequest";
+import emailService from '../../utils/SendEmail';
+import { generateToken } from '../../utils/GenerateToken';
 
 class CreateUserService{
     async execute({name, email, password}: UserRequest) {
@@ -33,12 +35,19 @@ class CreateUserService{
             throw new Error("Email already exists");
         }
 
+        // Expressão Regular para validar a complexidade da senha
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{8,}$/;
+
+        // Verifica se a senha atende aos critérios
+        if (!passwordRegex.test(password)) {
+            throw new Error('A senha deve ter no mínimo 8 caracteres, incluindo pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.');
+        }
+
         // Encriptando a nossa senha do usuário
         const passwordHash = await hash(password, 8);
 
-
         // Criando nosso usuário
-        const user = prismaClient.user.create({
+        const user = await prismaClient.user.create({
             data: {
                 name: name,
                 email: email,
@@ -52,7 +61,24 @@ class CreateUserService{
                 email: true,
             }
         })
+        
+        const token = generateToken();
+        const expirationTime = new Date();
+        expirationTime.setMinutes(expirationTime.getMinutes() + 20);
 
+        await prismaClient.userKey.create({
+            data: {
+                key: token,
+                created_at: new Date(),
+                expired_at: expirationTime,
+                activated: true,
+                user_id: user.id,
+            },
+        });
+
+        // Enviar email com link para primeiro acesso
+        await emailService.sendMail(email, 'Link de Primeiro Acesso', `Clique aqui para liberar seu acesso no sistema: http://localhost:3333/v1/validate-token?token=${token}`);
+    
         return user;
     }
 }

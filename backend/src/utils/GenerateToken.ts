@@ -4,5 +4,6 @@ export function generateToken(): string {
     const uuidPart = uuidv4();
     const timestamp = Math.floor(Date.now() / 1000);
     const combined = `${uuidPart}-${timestamp}`;
+
     return combined;
 }

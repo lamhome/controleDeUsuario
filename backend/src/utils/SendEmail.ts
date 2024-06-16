@@ -5,13 +5,13 @@ class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: "Outlook", // Ou "Hotmail"
+      service: "Outlook",
       host: "smtp.office365.com",
       port: 587,
-      secure: false, // Defina como false para usar TLS
+      secure: false,
       auth: {
-        user: process.env.HOTMAIL_USERNAME, // Substitua por sua variável de ambiente
-        pass: process.env.HOTMAIL_PASSWORD, // Substitua por sua variável de ambiente
+        user: process.env.HOTMAIL_USERNAME,
+        pass: process.env.HOTMAIL_PASSWORD,
       },
     });
   }
