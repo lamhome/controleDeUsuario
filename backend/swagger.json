@@ -174,7 +174,153 @@
                     }
                 }
             }
+        },
+        "/v1/user/list-types":{
+          "get":{
+                "description":"Lista todas os tipos de usuário",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                "$ref":"#/components/schemas/ResponseListTypes"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/list-all":{
+          "get":{
+                "description":"Lista todas os usuário",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                "$ref":"#/components/schemas/ResponseListAllUsers"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/change-password":{
+            "get":{
+                "description": "Alterar Senha - Usuário Autenticado",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "description":"Dados necessarios para a alteração de senha do usuário",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestChangePasswordUser"
+                            }
+                        }
+                    }
+                },
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseChangePasswordUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/token/forgot_password":{
+            "post":{
+                "description":"Esqueceu sua senha - Envio do token para alteração de senha",
+                "requestBody":{
+                    "description":"Dados necessários para envio do token para alteração de senha",
+                    "content":{
+                    "application/json":{
+                        "schema":{
+                        "$ref":"#/components/schemas/RequestForgotPassword"
+                        }
+                    }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseForgotPassword"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/token/validate_forgot?token={token}":{
+            "post":{
+                "description":"Validação do token de esqueceu sua senha",
+                "parameters":[
+                    {
+                    "name":"token",
+                    "in":"path",
+                    "description":"Token personalizado de ativação",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid-timestamp"
+                    }
+                ],
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseValidateForgot"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/change-password-forgot":{
+            "get":{
+                "description": "Alterar Senha - Esqueceu senha",
+                "requestBody":{
+                    "description":"Dados necessarios para a alteração de senha do usuário",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestChangePasswordForgot"
+                            }
+                        }
+                    }
+                },
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseChangePasswordForgot"
+                            }
+                        }
+                    }
+                }
+            }
         }
+
     },
     "components":{
         "schemas":{
@@ -298,6 +444,83 @@
                 }
             },
             "ResponseDeleteUser":{
+                "type":"object"
+            },
+            "ResponseListTypes":{
+                "type":"object",
+                "id":{
+                    "type":"string"
+                },
+                "name":{
+                    "type":"string"
+                }
+            },
+            "ResponseListAllUser":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "type_id":{
+                        "type":"string"
+                    },
+                    "type":{
+                        "type": "string"
+                    },
+                    "activated":{
+                        "type":"timestamp"
+                    },
+                    "created_at":{
+                        "type":"timestamp"
+                    }
+                }
+            },
+            "RequestChangePasswordUser":{
+                "type": "object",
+                "properties":{
+                    "user_id":{
+                        "type":"string"
+                    },
+                    "password":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseChangePasswordUser":{
+                "type":"object"
+            },
+            "RequestForgotPassword":{
+                "type":"object",
+                "properties":{
+                    "email":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseForgotPassword":{
+                "type":"object"
+            },
+            "ResponseValidateForgot":{
+                "type":"object"
+            },
+            "RequestChangePasswordForgot":{
+                "type": "object",
+                "properties":{
+                    "token":{
+                        "type":"string"
+                    },
+                    "password":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseChangePasswordForgot":{
                 "type":"object"
             }
 
