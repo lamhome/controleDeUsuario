@@ -48,6 +48,8 @@ function Dashboard() {
     // Buscar lista de usuários ao carregar o Dashboard
     if (storedToken) {
       fetchUsers(storedToken);
+    } else {
+      window.location.href = "/";
     }
   }, []);
 
@@ -121,7 +123,7 @@ function Dashboard() {
                 <tbody>
                   {userList.map((user) => (
                     <tr key={user.id}>
-                      <td>{user.id}</td>
+                      <td>{user.name}</td>
                       <td>{user.email}</td>
                       <td>{user.type?.name || 'Desconhecido'}</td>
                       <td>{user.activated ? 'Ativo' : 'Inativo'}</td>

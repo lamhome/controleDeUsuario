@@ -18,18 +18,18 @@ import { ResetForgotPasswordController } from "./controllers/password/ResetForgo
 const router = Router();
 
 // User Routers
-router.post('/user', new CreateUserController().handle);
-router.delete('/user/remove', isAuthenticated, new RemoveUserController().handle);
-router.put('/user/edit', isAuthenticated, new EditUserController().handle);
-router.get('/user/change-password', new ResetPasswordController().handle);
-router.get('/user/change-password-forgot', new ResetForgotPasswordController().handle);
-router.post('/user/session', new AuthUserController().handle);
-router.get('/user/detail', isAuthenticated, new DetailUserController().handle);
+router.post('/user', new CreateUserController().handle); // ok
+router.get('/token/validate_first', new ValidateFirstAccessController().handle);
+router.post('/token/first_access', new LinkFirstAccessController().handle); //ok
+router.post('/user/session', new AuthUserController().handle); // ok
+router.get('/user/detail', isAuthenticated, new DetailUserController().handle); // ok
+router.put('/user/edit', isAuthenticated, new EditUserController().handle); // ok
+router.delete('/user/remove', isAuthenticated, new RemoveUserController().handle); // ok
 router.get('/user/list-types', new ListAllTypesController().handle);
 router.get('/user/list-all', isAuthenticated, new ListAllUsersController().handle); 
-router.get('/token/validate_forgot', new ValidateTokenController().handle);
-router.get('/token/validate_first', new ValidateFirstAccessController().handle);
+router.get('/user/change-password', new ResetPasswordController().handle);
 router.post('/token/forgot_password', new ForgotPasswordController().handle);
-router.post('/token/first_access', new LinkFirstAccessController().handle);
+router.get('/token/validate_forgot', new ValidateTokenController().handle);
+router.get('/user/change-password-forgot', new ResetForgotPasswordController().handle);
 
 export { router };

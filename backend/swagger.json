@@ -36,7 +36,31 @@
                 }
             }
         },
-        "/v1/session":{
+        "/v1/token/first_access?token={token}":{
+            "post":{
+                "description":"Ativando Nova Conta de Usuário",
+                "parameters":[
+                    {
+                    "name":"token",
+                    "in":"path",
+                    "description":"Token personalizado de ativação",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid-timestamp"
+                    }
+                ],
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseFirstAccess"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/session":{
             "post":{
                 "description":"Logar e autenticar usuário",
                 "requestBody":{
@@ -62,7 +86,7 @@
                 }
             }
         },
-        "/v1/me?user_id={user_id}":{
+        "/v1/user/detail?user_id={user_id}":{
           "get":{
                 "description":"Busca de um usuário por id",
                 "security":[
@@ -93,9 +117,43 @@
                 }
             }
         },
+        "/v1/user/edit?user_id={user_id}":{
+            "put":{
+                "description":"Editar usuário",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                    "name":"user_id",
+                    "in":"path",
+                    "description":"Id do usuário",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+                    }
+                ],
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseEditUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/remove?user_id={user_id}":{
             "delete":{
                 "description":"Remover usuário",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
                 "parameters":[
                     {
                     "name":"user_id",
@@ -146,6 +204,17 @@
                     "type":"string"
                 }
             },
+            "RequestFirstAccess":{
+                "type": "object",
+                "properties":{
+                    "token":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseFirstAccess":{
+                "type":"object"
+            },
             "RequestAuthUser":{
                 "type":"object",
                 "properties":{
@@ -179,6 +248,51 @@
                         "type":"boolean"
                     },
                     "token":{
+                        "type":"string"
+                    }
+                }
+            },
+            "RequestDetailUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseDetailUser":{
+                "type":"object",
+                    "id":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "userType":{
+                        "type":"string"
+                    },
+                    "typeName":{
+                        "type": "string"
+                    }
+            },
+            "RequestEditUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseEditUser":{
+                "type":"object"
+            },
+            "RequestDeleteUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
                         "type":"string"
                     }
                 }

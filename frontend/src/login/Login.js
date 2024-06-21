@@ -4,16 +4,16 @@ import axios from 'axios';
 import lamIMG from "./../assets/images/lg_lamtech.png";
 
 // Interceptor de resposta
-axios.interceptors.response.use(undefined, error => {
+/*axios.interceptors.response.use(undefined, error => {
   if (error.response && error.response.status === 400) {
     // Mostra uma mensagem de erro personalizada
-    alert("Dados do usuário não conferem. Por favor, tente novamente.");
+    alert(`Houve algum problema. Por favor, tente novamente.`);
     // Redireciona o usuário de volta para a tela de login
     window.location.href = "/";
   }
   // Retorna a promessa rejeitada para que ela possa ser tratada por outros interceptores ou por.catch()
   return Promise.reject(error);
-});
+});*/
 
 function Login() {
   const [email, setEmail] = useState("");

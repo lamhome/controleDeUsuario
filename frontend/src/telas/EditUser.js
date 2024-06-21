@@ -12,7 +12,6 @@ function EditUser() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  console.log(id)
 
   useEffect(() => {
     const fetchUserTypes = async () => {
@@ -57,9 +56,9 @@ function EditUser() {
     e.preventDefault();
     setMessage('');
     setError('');
+    console.log("handleSave id:", id); // Log antes de enviar a requisição
     try {
       const storedToken = localStorage.getItem('token');
-      
       await axios.put(`http://localhost:3333/v1/user/edit`, {
         user_id: id,
         name,
