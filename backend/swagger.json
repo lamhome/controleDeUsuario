@@ -172,6 +172,12 @@
                     "userType":{
                         "type":"string"
                     },
+                    "typeName":{
+                        "type": "string"
+                    },
+                    "isAdm":{
+                        "type":"boolean"
+                    },
                     "token":{
                         "type":"string"
                     }

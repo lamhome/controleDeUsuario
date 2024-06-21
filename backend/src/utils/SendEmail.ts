@@ -16,12 +16,12 @@ class EmailService {
     });
   }
 
-  async sendMail(to: string, subject: string, text: string) {
+  async sendMail(to: string, subject: string, html: string) {
     const mailOptions = {
-      from: process.env.HOTMAIL_USERNAME, // Substitua por sua variável de ambiente
+      from: process.env.HOTMAIL_USERNAME,
       to,
       subject,
-      text,
+      html,
     };
 
     try {

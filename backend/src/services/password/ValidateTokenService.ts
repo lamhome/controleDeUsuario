@@ -24,7 +24,7 @@ class ValidateTokenService {
           data: { validated: true },
         });
 
-        return (userKey.user_id);
+        return { message: 'Usuário ativado com sucesso!' };
     }
 }
 

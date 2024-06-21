@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import lamIMG from "./../assets/images/lg_lamtech.png";
+import axios from 'axios';
 
 function CreateAccount() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -10,6 +12,14 @@ function CreateAccount() {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
 
+  const validateName = (name) => {
+    const errors = {};
+    if (name.trim() === "") {
+      errors.name = "O nome é obrigatório.";
+    }
+    return errors;
+  };
+  
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const errors = {};
@@ -21,7 +31,7 @@ function CreateAccount() {
     return errors;
   };
 
-  const validatePassword = (password) => {
+  const validatePassword = (password, confirmPassword) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{8,}$/;
     const errors = {};
     
@@ -45,23 +55,33 @@ function CreateAccount() {
   const handlePasswordChange = (e) => {
     const { value } = e.target;
     setPassword(value);
-    setErrors(validatePassword(value));
+    setErrors(validatePassword(value, confirmPassword));
   };
 
   const handleConfirmPasswordChange = (e) => {
     const { value } = e.target;
     setConfirmPassword(value);
-    setErrors(validatePassword(password));
+    setErrors(validatePassword(password, value));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = Object.assign({}, validatePassword(password), validateEmail(email));
+    const validationErrors = Object.assign({}, validatePassword(password, confirmPassword), validateEmail(email), validateName(name)); 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      setMessage("Um email com as instruções de acesso foi enviado para sua conta.");
-      setErrors({});
+      try {
+        await axios.post('http://localhost:3333/v1/user', {
+          name,
+          email,
+          password
+        });
+        setMessage("Conta criada com sucesso! Você receberá um e-mail com as instruções para validação da conta.");
+        setErrors({});
+      } catch (error) {
+        console.error(error);
+        setMessage("Erro ao criar a conta. Por favor, tente novamente.");
+      }
     }
   };
 
@@ -83,6 +103,17 @@ function CreateAccount() {
               <img src={lamIMG} alt="LAMTech" />
             </span>
 
+            <div className="wrap-input">
+              <input
+                className="input"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <span className="focus-input" data-placeholder="Nome"></span>
+            </div>
+            {errors.name && <div className="error-message">{errors.name}</div>}
+         
             <div className="wrap-input">
               <input
                 className={errors.email ? "has-val input error" : email !== "" ? "has-val input" : "input"}

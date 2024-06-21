@@ -77,8 +77,14 @@ class CreateUserService{
         });
 
         // Enviar email com link para primeiro acesso
-        await emailService.sendMail(email, 'Link de Primeiro Acesso', `Clique aqui para liberar seu acesso no sistema: http://localhost:3333/v1/validate-token?token=${token}`);
-    
+
+        await emailService.sendMail(
+            email, 
+            'Validação de Conta', 
+            `<html><body><p><b>${user.name}</b>,</p>
+            <p>Para validar seu cadastro no sistema de Gestão de Acessos clique <a href="http://localhost:3000/user-validation?token=${token}">aqui.</a></p>
+        </body></html>`);
+
         return user;
     }
 }

@@ -18,6 +18,9 @@ class AuthUserService {
             {
                 where: {
                     email: email
+                },
+                include: {
+                    type: true
                 }
             }
         );
@@ -55,6 +58,8 @@ class AuthUserService {
             name: user?.name,
             email: user?.email,
             userType: user?.type_id,
+            typeName: user?.type?.name,
+            isAdm: user?.type?.admin_default,
             token: token
         }
     }

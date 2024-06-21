@@ -5,7 +5,7 @@ import { ForgotPasswordService } from '../../services/password/ForgotPasswordSer
 class ForgotPasswordController {
     async handle(request: Request, response: Response) {
         try {
-            const { email }: ForgotPasswordRequest = request.body;
+            const { email } : ForgotPasswordRequest = request.body;
             const forgotPasswordService = new ForgotPasswordService();
             const requestData: ForgotPasswordRequest = { email };
             const result = await forgotPasswordService.execute(requestData);

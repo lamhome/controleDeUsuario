@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ValidateTokenService } from "../../services/password/ValidateTokenService";
 
+
 class ValidateTokenController {
     async handle(request: Request, response: Response) {
 

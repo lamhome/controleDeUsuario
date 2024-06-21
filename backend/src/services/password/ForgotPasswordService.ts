@@ -1,7 +1,7 @@
-import { ForgotPasswordRequest } from '../../models/interfaces/password/ForgotPasswordRequest';
 import { PrismaClient } from '@prisma/client';
 import emailService from '../../utils/SendEmail';
 import { generateToken } from '../../utils/GenerateToken';
+import { ForgotPasswordRequest } from '../../models/interfaces/password/ForgotPasswordRequest';
 
 const prisma = new PrismaClient();
 
@@ -34,9 +34,16 @@ class ForgotPasswordService {
         });
 
         // Enviar email com link de recuperação
-        await emailService.sendMail(user.email, 'Link de Recuperação', `Clique aqui para recuperar sua senha: http://localhost:3333/v1/token/validate?token=${token}`);
+        await emailService.sendMail(
+            user.email, 
+            'Link de Recuperação', 
+            `<html><body><p><b>${user.name}</b>,</p>
+            <p>Foi solicitado a recuperação de senha de seu usuário no sistema Gestão de Acessos. Para redefinir sua senha acesse <a href="http://localhost:3000/change-password?token=${token}">aqui.</a></p>
+            <p>Caso você não tenha realizado esse pedido, favor desconsiderar esse e-mail.</p>
+            </body></html>`
+        );
     
-        return { message: 'E-mail enviado com instruções de recuperação.' };
+        return { message: 'E-mail enviado com instruções.' };
     }
 }
 

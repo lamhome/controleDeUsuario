@@ -4,10 +4,11 @@ import { EditUserRequest } from "../../models/interfaces/user/EditUserRequest";
 
 class EditUserController {
     async handle(request: Request, response: Response){
-        const {name, email, image, type_id, user_id}:EditUserRequest = request.body;
+        
+        const {name, type_id, user_id}:EditUserRequest = request.body; 
         const editUserService = new EditUserService();
         
-        const UserEdited = editUserService.execute({ name, email, image, type_id, user_id })
+        const UserEdited = editUserService.execute({ name, type_id, user_id })
         return response.json(UserEdited);
     }
 }

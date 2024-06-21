@@ -1,4 +1,4 @@
 export interface ResetPasswordRequest {
     user_id: string;
-    newPassword: string;
+    password: string;
 }
