@@ -7,7 +7,12 @@ const prisma = new PrismaClient();
 
 class ForgotPasswordService {
     async execute({ email }: ForgotPasswordRequest) {
-        const user = await prisma.user.findFirst({ where: { email: email } });
+        const user = await prisma.user.findFirst({ 
+            where: { 
+                email: email,
+                blocked: false
+            } 
+        });
 
         if (!user) {
             throw new Error('Usuário não encontrado');
@@ -19,8 +24,13 @@ class ForgotPasswordService {
 
         // Desativar todos os tokens anteriores do usuário
         await prisma.userKey.updateMany({
-            where: { user_id: user.id, activated: true },
-            data: { activated: false },
+            where: { 
+                user_id: user.id, 
+                activated: true 
+            },
+            data: { 
+                activated: false 
+            },
         });
 
         await prisma.userKey.create({

@@ -35,8 +35,8 @@ function Login() {
       localStorage.setItem('typeName', typeName);
       localStorage.setItem('isAdm', isAdm);
 
-      // Redireciona para a tela Dashboard
-      navigate('/dashboard');
+      // Redireciona para a tela Activity
+      navigate('/activity');
     } catch (error) {
       console.error(error);
       // Trate erros de autenticação aqui

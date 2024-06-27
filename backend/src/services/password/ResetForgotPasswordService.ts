@@ -22,7 +22,8 @@ class ResetForgotPasswordService{
 
         const user = await prisma.user.findFirst({
             where: { 
-                id: userKey.user_id
+                id: userKey.user_id,
+                blocked: false
             }
         });
 

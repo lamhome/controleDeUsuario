@@ -132,7 +132,7 @@ function ResetPassword() {
           </div>
 
           <div className="text-center">
-            <Link className="txt2" to="/dashboard">Voltar</Link>
+            <Link className="txt2" to="/activity">Voltar</Link>
           </div>
         </form>
       </div>

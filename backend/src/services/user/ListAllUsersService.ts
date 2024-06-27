@@ -17,6 +17,7 @@ export class ListAllUsersService {
                 },
                 activated: true,
                 created_at: true,
+                blocked: true
             }
         });
 

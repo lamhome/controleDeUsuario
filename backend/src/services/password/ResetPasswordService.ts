@@ -8,7 +8,8 @@ class ResetPasswordService{
         
         const user = await prisma.user.findFirst({
             where: { 
-                id: user_id
+                id: user_id,
+                blocked: false
             }
         });
 

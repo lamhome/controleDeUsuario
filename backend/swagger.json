@@ -147,8 +147,8 @@
             }
         },
         "/v1/user/remove?user_id={user_id}":{
-            "delete":{
-                "description":"Remover usuário",
+            "put":{
+                "description":"Bloquear usuário",
                 "security":[
                     {
                         "bearerAuth":[]
@@ -169,6 +169,35 @@
                         "application/json":{
                             "schema":{
                             "$ref":"#/components/schemas/ResponseDeleteUser"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/unlock?user_id={user_id}":{
+            "put":{
+                "description":"Desbloquear usuário",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                    "name":"user_id",
+                    "in":"path",
+                    "description":"Id do usuário",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+                    }
+                ],
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseUnlockUser"
                             }
                         }
                     }
@@ -319,6 +348,118 @@
                     }
                 }
             }
+        },
+        "/v1/activity":{
+            "post":{
+                "description": "Criar atividade",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "requestBody":{
+                    "description":"Dados necessarios para a criação de uma nova atividade",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestCreateActivity"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseCreateActivity"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/activity/edit?activity_id={activity_id}":{
+            "put":{
+                "description":"Editar atividade",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                    "name":"activity_id",
+                    "in":"path",
+                    "description":"Id da Atividade",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+                    }
+                ],
+                "200":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                            "$ref":"#/components/schemas/ResponseEditActivity"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/activity/delete?activity_id={activity_id}": {
+          "delete": {
+            "description": "Deleta uma atividade",
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "parameters": [
+              {
+                "name": "activity_id",
+                "in": "path",
+                "description": "Id da atividade",
+                "required": "true",
+                "type": "string",
+                "format": "uuid"
+              }
+            ],
+            "responses": {
+              "200": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ResponseDeleteActivity"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/v1/user/list-categories":{
+          "get":{
+                "description":"Lista todas os tipos de categoria de atividade",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                "$ref":"#/components/schemas/ResponseListCategories"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     },
@@ -446,6 +587,17 @@
             "ResponseDeleteUser":{
                 "type":"object"
             },
+            "RequestUnlockUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseUnlockUser":{
+                "type":"object"
+            },
             "ResponseListTypes":{
                 "type":"object",
                 "id":{
@@ -522,6 +674,75 @@
             },
             "ResponseChangePasswordForgot":{
                 "type":"object"
+            },
+            "RequestCreateActivity":{
+                "type": "object",
+                "properties":{
+                    "description":{
+                        "type":"string"
+                    },
+                    "category_id":{
+                        "type":"string"
+                    },
+                    "dt_inicial":{
+                        "type":"string"
+                    },
+                    "dt_final":{
+                        "type":"string"
+                    },
+                    "user_id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseCreateActivity":{
+                "type":"object",
+                "id":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "category_id":{
+                    "type":"string"
+                },
+                "dt_inicial":{
+                    "type":"string"
+                },
+                "dt_final":{
+                    "type":"string"
+                },
+                "user_id":{
+                    "type":"string"
+                }
+            },
+            "RequestEditActivity":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseEditActivity":{
+                "type":"object"
+            },
+            "ResponseDeleteCategory": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                    "type": "string"
+                    }
+                }
+            },
+            "ResponseListCategories":{
+                "type":"object",
+                "id":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                }
             }
 
         },

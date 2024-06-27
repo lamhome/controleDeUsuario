@@ -34,6 +34,10 @@ class AuthUserService {
             throw new Error("Inactive user!")
         }
 
+        if (user.blocked){
+            throw new Error("Blocked user! Contact system technical support.")
+        }
+
         // Verificar se a senha do usuario esta correta
         const passwordMatch = await compare(password, user?.password)
 

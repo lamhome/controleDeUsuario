@@ -36,6 +36,7 @@ model User {
   created_at      DateTime @default(now())
   update_at       DateTime @default(now())
   activated       Boolean  @default(false)
+  blocked         Boolean  @default(false)
   change_password Boolean  @default(true)
   auth0_id        String?  @unique
 
@@ -45,6 +46,8 @@ model User {
   keys            UserKey[]
   userLogs        UserLog[] @relation("UserLogUser")
   userReferences  UserLog[] @relation("UserLogReference")
+  userItem        activityItem[] @relation("UserActivityItem")
+  userCategory    activityCategory[] @relation("UserActivityCategory")
 
   @@map("users")
 }
@@ -78,4 +81,37 @@ model UserLog {
   userReference   User        @relation("UserLogReference", fields: [user_reference], references: [id])
 
   @@map("logs")
+}
+
+model activityCategory {
+  id            String @id @default(uuid())
+  description   String
+  created_at    DateTime @default(now())
+  updated_at    DateTime
+
+  user_id         String
+  userCategory    User        @relation("UserActivityCategory", fields: [user_id], references: [id])
+
+
+  items activityItem[]
+
+  @@map("categories")
+}
+
+model activityItem {
+  id              String   @id @default(uuid())
+  description     String
+  dt_inicial      DateTime @default(now())
+  dt_final        DateTime @default(now())
+  created_at      DateTime @default(now())
+  update_at       DateTime @default(now())
+  finalized       Boolean  @default(false)
+
+  category_id     String
+  category        activityCategory @relation(fields: [category_id], references: [id])
+
+  user_id         String
+  userItem        User     @relation("UserActivityItem", fields: [user_id], references: [id])
+
+  @@map("items")
 }

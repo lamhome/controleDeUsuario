@@ -69,7 +69,7 @@ function EditUser() {
         }
       });
       setMessage('Usuário atualizado com sucesso!');
-      setTimeout(() => navigate('/dashboard'), 2000); // Voltar para o dashboard após 2 segundos
+      setTimeout(() => navigate('/user'), 2000); // Voltar para o User após 2 segundos
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
       setError('Erro ao atualizar usuário. Por favor, tente novamente.');
@@ -129,7 +129,7 @@ function EditUser() {
           </div>
 
           <div className="text-center">
-            <Link className="txt2" to="/dashboard">Voltar</Link>
+            <Link className="txt2" to="/user">Voltar</Link>
           </div>
         </form>
       </div>

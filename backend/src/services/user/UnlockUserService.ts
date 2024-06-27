@@ -1,13 +1,13 @@
 import prismaClient from "../../prisma";
-import { RemoveUserRequest } from "../../models/interfaces/user/RemoveUserRequest";
+import { UnlockUserRequest } from "../../models/interfaces/user/UnlockUserRequest";
 
-class RemoveUserService {
-    async execute({ user_id }: RemoveUserRequest){
+class UnlockUserService {
+    async execute({ user_id }: UnlockUserRequest){
 
         const user = await prismaClient.user.update({
             where: { id: user_id },
             data: { 
-                blocked: true,
+                blocked: false,
                 update_at: new Date()
             },
         });
@@ -15,4 +15,4 @@ class RemoveUserService {
     }
 }
 
-export { RemoveUserService };
+export { UnlockUserService };
