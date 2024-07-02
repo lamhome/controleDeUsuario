@@ -72,6 +72,31 @@ body, html {
   font-family: Nunito, sans-serif;
 }
 
+.input option {
+  color: #333;
+  background-color: #fff;
+}
+
+.input.with-placeholder {
+  position: relative;
+}
+
+.input.with-placeholder:focus + .focus-input::after {
+  top: -15px;
+}
+
+.input.with-placeholder:focus + .focus-input::before {
+  width: 100%;
+}
+
+.input.with-placeholder + .focus-input::after {
+  top: -15px;
+}
+
+.input.with-placeholder + .focus-input::before {
+  width: 100%;
+}
+
 .focus-input {
   position: absolute;
   display: block;
@@ -421,4 +446,36 @@ body, html {
   padding: 10px 20px;
   background-color: #333;
   color: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.actions-header {
+  padding: 0;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+
+.new-activity-button {
+  margin-left: auto;
+}
+
+.edit-button,
+.delete-button {
+  margin-right: 5px;
 }

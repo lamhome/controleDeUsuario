@@ -46,7 +46,8 @@ export class EditActivityService {
                 description: description,
                 category_id: category.id,
                 dt_inicial: inicial,
-                dt_final: final
+                dt_final: final,
+                update_at: new Date()
             }            
         });
 

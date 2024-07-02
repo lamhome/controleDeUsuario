@@ -1,6 +1,6 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { CreateUserController } from "./controllers/user/CreateUserController";
-import { AuthUserController} from "./controllers/auth/AuthUserController";
+import { AuthUserController } from "./controllers/auth/AuthUserController";
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { DetailUserController } from "./controllers/user/DetailUserController";
 import { RemoveUserController } from "./controllers/user/RemoveUserController";
@@ -18,28 +18,31 @@ import { CreateActivityController } from "./controllers/activity/CreateActivityC
 import { EditActivityController } from "./controllers/activity/EditActivityController";
 import { DeleteActivityController } from "./controllers/activity/DeleteActivityController";
 import { ListAllCategoriesController } from "./controllers/activity/ListAllCategoriesController";
-
+import { ListActivityByUserController } from "./controllers/activity/ListActivityByUserController";
+import { DetailActivityController } from "./controllers/activity/DetailActivityController";
 
 const router = Router();
 
 // User Routers
-router.post('/user', new CreateUserController().handle); // ok
+router.post('/user', new CreateUserController().handle);
 router.get('/token/validate_first', new ValidateFirstAccessController().handle);
-router.post('/token/first_access', new LinkFirstAccessController().handle); //ok
-router.post('/user/session', new AuthUserController().handle); // ok
-router.get('/user/detail', isAuthenticated, new DetailUserController().handle); // ok
-router.put('/user/edit', isAuthenticated, new EditUserController().handle); // ok
-router.put('/user/remove', isAuthenticated, new RemoveUserController().handle); // ok
-router.put('/user/unlock', isAuthenticated, new UnlockUserController().handle); // ok
-router.get('/user/list-types', new ListAllTypesController().handle); // ok
-router.get('/user/list-all', isAuthenticated, new ListAllUsersController().handle); //ok
-router.get('/user/change-password', new ResetPasswordController().handle); // ok
-router.post('/token/forgot_password', new ForgotPasswordController().handle); //ok
-router.get('/token/validate_forgot', new ValidateTokenController().handle); //ok
-router.get('/user/change-password-forgot', new ResetForgotPasswordController().handle); //ok
-router.post('/activity', isAuthenticated, new CreateActivityController().handle); // ok
-router.put('/activity/edit', isAuthenticated, new EditActivityController().handle); // ok
-router.delete('/activity/delete', isAuthenticated, new DeleteActivityController().handle) //ok
-router.get('/user/list-categories', new ListAllCategoriesController().handle) //ok
+router.post('/token/first_access', new LinkFirstAccessController().handle);
+router.post('/user/session', new AuthUserController().handle);
+router.get('/user/detail', isAuthenticated, new DetailUserController().handle);
+router.put('/user/edit', isAuthenticated, new EditUserController().handle);
+router.put('/user/remove', isAuthenticated, new RemoveUserController().handle);
+router.put('/user/unlock', isAuthenticated, new UnlockUserController().handle);
+router.get('/user/list-types', new ListAllTypesController().handle);
+router.get('/user/list-all', isAuthenticated, new ListAllUsersController().handle);
+router.get('/user/change-password', new ResetPasswordController().handle);
+router.post('/token/forgot_password', new ForgotPasswordController().handle);
+router.get('/token/validate_forgot', new ValidateTokenController().handle);
+router.get('/user/change-password-forgot', new ResetForgotPasswordController().handle);
+router.post('/activity', isAuthenticated, new CreateActivityController().handle);
+router.put('/activity/edit', isAuthenticated, new EditActivityController().handle);
+router.put('/activity/delete', isAuthenticated, new DeleteActivityController().handle);
+router.get('/activity/list-categories', isAuthenticated, new ListAllCategoriesController().handle);
+router.get('/activity/list-all', isAuthenticated, new ListActivityByUserController().handle);
+router.get('/activity/detail', isAuthenticated, new DetailActivityController().handle);
 
 export { router };

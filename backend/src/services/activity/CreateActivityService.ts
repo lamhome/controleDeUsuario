@@ -29,6 +29,14 @@ export class CreateActivityService {
             throw new Error('Invalid User.'); 
         }
 
+        if (!dt_inicial) {
+            throw new Error('Invalid Start Date.'); 
+        }
+
+        if (!dt_final) {
+            throw new Error('Invalid End Date.'); 
+        }
+
         const final = new Date(dt_final);
         const inicial = new Date(dt_inicial);
 

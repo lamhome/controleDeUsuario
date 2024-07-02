@@ -56,7 +56,7 @@ function EditUser() {
     e.preventDefault();
     setMessage('');
     setError('');
-    console.log("handleSave id:", id); // Log antes de enviar a requisição
+
     try {
       const storedToken = localStorage.getItem('token');
       await axios.put(`http://localhost:3333/v1/user/edit`, {
@@ -111,7 +111,7 @@ function EditUser() {
 
           <div className="wrap-input">
             <select
-              className="input"
+              className={userType !== "" ? "has-val input with-placeholder" : "input with-placeholder"}
               value={userType}
               onChange={(e) => setUserType(e.target.value)}
               required

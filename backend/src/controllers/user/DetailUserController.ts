@@ -5,8 +5,6 @@ class DetailUserController {
     async handle(request: Request, response: Response){
         try{
             const user_id = request.query.user_id as string;
-            console.log(user_id)
-
             const detailUserService = new DetailUserService();
             const result = await detailUserService.execute(user_id);
             response.status(200).json(result);

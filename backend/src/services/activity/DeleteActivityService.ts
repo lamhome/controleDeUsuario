@@ -7,9 +7,13 @@ export class DeleteActivityService {
             throw new Error("Id da atividade não foi enviado!");
         }
 
-        const removeActivity = await prismaClient.activityItem.delete({
+        const removeActivity = await prismaClient.activityItem.update({
             where: {
                 id: activity_id
+            },
+            data: { 
+                finalized: true,
+                update_at: new Date()
             },
         });
         return removeActivity;

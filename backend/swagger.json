@@ -410,7 +410,7 @@
             }
         },
         "/v1/activity/delete?activity_id={activity_id}": {
-          "delete": {
+          "put": {
             "description": "Deleta uma atividade",
             "security": [
               {
@@ -440,7 +440,7 @@
             }
           }
         },
-        "/v1/user/list-categories":{
+        "/v1/activity/list-categories":{
           "get":{
                 "description":"Lista todas os tipos de categoria de atividade",
                 "security":[
@@ -454,6 +454,81 @@
                             "application/json":{
                                 "schema":{
                                 "$ref":"#/components/schemas/ResponseListCategories"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/activity/list-all": {
+            "get": {
+            "description": "Lista todas as atividades do Usuário",
+            "security": [
+                {
+                "bearerAuth": []
+                }
+            ],
+            "parameters": [
+                {
+                "name": "user_id",
+                "in": "query", 
+                "description": "Id do usuário",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+                }
+            ],
+            "responses": {
+                "200": {
+                "description": "Lista de atividades",
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/ResponseListAllActivities"
+                    }
+                    }
+                }
+                },
+                "400": {
+                "description": "Erro na requisição",
+                "content": {
+                    "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                    }
+                }
+                }
+            }
+            }
+        },
+        "/v1/activity/detail?activity_id={activity_id}":{
+          "get":{
+                "description":"Busca de uma atividade por id",
+                "security":[
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"activity_id",
+                        "in":"path",
+                        "description":"Id do atividade",
+                        "required":"true",
+                        "type":"string",
+                        "format":"uuid"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                "$ref":"#/components/schemas/ResponseCreateActivity"
                                 }
                             }
                         }
@@ -743,15 +818,58 @@
                 "description":{
                     "type":"string"
                 }
+            },
+            "ResponseListAllActivities": {
+                "type": "object",
+                "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dt_inicial": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "dt_final": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "category": {
+                    "type": "object",
+                    "properties": {
+                    "description": {
+                        "type": "string"
+                    }
+                    }
+                },
+                "finalized": {
+                    "type": "boolean"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+                }
+            },
+            "ErrorResponse": {
+                "type": "object",
+                "properties": {
+                "error": {
+                    "type": "string"
+                }
+                }
             }
 
         },
-        "securitySchemas":{
+        "securitySchemes": {
             "bearerAuth": {
-                "description": "Autentificação utilizando JWT",
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
+            "description": "Autentificação utilizando JWT",
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
             }
         }
     }
